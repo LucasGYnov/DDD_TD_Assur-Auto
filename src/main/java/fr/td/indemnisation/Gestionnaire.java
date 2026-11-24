@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Entité, un gestionnaire sinistres, identifié par son GestionnaireId.
+ * Agrégat du core, un gestionnaire sinistres, identifié par son GestionnaireId.
  * A15, il a au plus 60 dossiers ouverts. Il les connaît par leur identifiant, pas par l'objet.
  */
 public class Gestionnaire {
@@ -42,16 +42,17 @@ public class Gestionnaire {
 
     /**
      * A15, un dossier sinistre est suivi par un seul gestionnaire, de l'ouverture à la clôture :
-     * seul celui qui le suit peut le clôturer. La clôture libère une place.
-     * Produit l'événement « Dossier sinistre clôturé ».
+     * il ne libère que la place d'un dossier qu'il suit.
+     * Reçue de la policy LiberationDuGestionnaire, quand le dossier sinistre est clôturé.
+     * Produit l'événement « Place libérée ».
      */
-    public DossierSinistreCloture cloturer(DossierId dossier) {
+    public PlaceLiberee libererLaPlace(DossierId dossier) {
         if (!dossiersOuverts.contains(dossier)) {
             throw new RegleRefusee("A15", "le dossier sinistre " + dossier
-                    + " n'est pas suivi par le gestionnaire " + id + " : il ne peut pas le clôturer");
+                    + " n'est pas suivi par le gestionnaire " + id + " : il n'a pas de place à libérer");
         }
         dossiersOuverts.remove(dossier);
-        return new DossierSinistreCloture(dossier, id);
+        return new PlaceLiberee(id, dossier, dossiersOuverts.size());
     }
 
     @Override
