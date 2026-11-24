@@ -1,7 +1,16 @@
 package fr.td;
 
-import static fr.td.Verificateur.*;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
+import static fr.td.Verificateur.attendu;
+import static fr.td.Verificateur.bilan;
+import static fr.td.Verificateur.differents;
+import static fr.td.Verificateur.refuse;
+import static fr.td.Verificateur.titre;
+import static fr.td.Verificateur.verifier;
 import fr.td.baremes.CoefficientBonusMalus;
 import fr.td.baremes.SinistreResponsable;
 import fr.td.indemnisation.CalculDeLaFranchise;
@@ -34,13 +43,8 @@ import fr.td.indemnisation.expertis.RapportExpertis;
 import fr.td.indemnisation.expertis.RapportExpertisIntraduisible;
 import fr.td.indemnisation.expertis.TraducteurExpertis;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
 /**
- * VOS vérifications. Une par règle, qui montre que la règle est respectée... et qu'on ne peut pas la contourner.
+ * Les vérifications. Une par règle, qui montre que la règle est respectée... et qu'on ne peut pas la contourner.
  * Jour 1 : A4 (Responsabilite), A13 (CoefficientBonusMalus) et A15 (Gestionnaire).
  * Jour 2 : un mot, deux modèles (Contrat : A1, A3, A17 / A14), les événements du core (A15)
  * et l'ACL Expertis (A8, H18).
